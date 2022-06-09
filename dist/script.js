@@ -15470,9 +15470,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.addEventListener('DOMContentLoaded', function () {
-  Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])(); // tabs();
+  // tabs(); // div>div строгое соответсвие в селекторе
+
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider ', '.glazing_block', '.glazing_content', 'active');
-  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click');
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click'); // div>div строгое соответсвие в селекторе
 });
 
 /***/ }),
@@ -15492,7 +15494,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var modals = function modals() {
   function bindModal(triggerSelector, modalSelector, closeSelector) {
-    // отвечает за привязку модального окна к триггеру
     var trigger = document.querySelectorAll(triggerSelector),
         modal = document.querySelector(modalSelector),
         close = document.querySelector(closeSelector);
@@ -15503,17 +15504,17 @@ var modals = function modals() {
         }
 
         modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // document.body.classList.add('modal-open');
+        document.body.style.overflow = 'hidden';
       });
     });
     close.addEventListener('click', function (e) {
       modal.style.display = 'none';
-      document.body.style.overflow = ''; // document.body.classList.remove('modal-open');
+      document.body.style.overflow = '';
     });
     modal.addEventListener('click', function (e) {
       if (e.target === modal) {
         modal.style.display = 'none';
-        document.body.style.overflow = ''; // document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
       }
     });
   }
@@ -15526,7 +15527,7 @@ var modals = function modals() {
   }
 
   bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
-  bindModal('.phone_link', '.popup', '.popup .popup_close'); // showModalByTime('.popup', 60000);
+  bindModal('.phone_link', '.popup', ".popup .popup_close"); // showModalByTime('.popup_engineer', 60000);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
@@ -15569,20 +15570,17 @@ var tabs = function tabs(headerSelector, tabSelector, contentSelector, activeCla
     tab[i].classList.add(activeClass);
   }
 
-  hideTabContent();
-  showTabContent();
   header.addEventListener('click', function (e) {
     var target = e.target;
-
-    if (target && (target.classList.contains(tabSelector.replace(/\./, "")) || target.parentNode.classList.contains(tabSelector.replace(/\./, "")))) {
-      tab.forEach(function (item, i) {
-        if (target == item || target.parentNode == item) {
-          hideTabContent();
-          showTabContent(i);
-        }
-      });
-    }
+    if (target && target.classList.contains(tabSelector.replace(/\./, "")) || target.parentNode.classList.contains(tabSelector.replace(/\./, ""))) tab.forEach(function (item, i) {
+      if (target == item || target.parentNode == item) {
+        hideTabContent();
+        showTabContent(i);
+      }
+    });
   });
+  hideTabContent();
+  showTabContent();
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (tabs);
